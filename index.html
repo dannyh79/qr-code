@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+</head>
+<body>
+  <h1>QR Code Generator</h1>
+
+  <div>
+    <label for="url-input">Enter URL:</label>
+    <input type="text" id="url-input" name="url" placeholder="Enter URL to generate QR Code" />
+  </div>
+
+  <button id="generate-btn" style="margin-top: 10px;">
+    Generate
+  </button>
+
+  <div id="qr-code" style="margin-top: 20px;"></div>
+
+  <script>
+    const myAvatar = 'https://avatars.githubusercontent.com/dannyh79';
+
+    function generateQRCode(url) {
+      return new QRCodeStyling({
+        width: 300,
+        height: 300,
+        type: 'svg',
+        data: url,
+        image: myAvatar,
+        dotsOptions: {
+          color: '#4267b2',
+          type: 'rounded',
+        },
+        backgroundOptions: {
+          color: '#e9ebee',
+        },
+        imageOptions: {
+          crossOrigin: 'anonymous',
+          margin: 20,
+        },
+      });
+    }
+
+    document.querySelector('#generate-btn').addEventListener('click', () => {
+      const rawUrl = document.querySelector('#url-input').value;
+      const url = URL.parse(rawUrl);
+
+      const qrCodeContainer = document.querySelector('#qr-code');
+
+      if (!url) {
+        alert('Please enter a valid URL, for example, "https://chenghsuan.me".');
+      } else {
+        qrCodeContainer.innerHTML = '';
+      }
+
+      const qrCode = generateQRCode(url.href);
+      qrCode.append(qrCodeContainer);
+    });
+  </script>
+</body>
+</html>
